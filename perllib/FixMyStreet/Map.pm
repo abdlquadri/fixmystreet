@@ -133,7 +133,8 @@ sub map_pins {
           # Perhaps pins could be serialised hashes, avoiding the need for
           # fields to be ordered.
           undef,
-          $p->category
+          $p->category,
+          $p->is_fixed || $p->is_closed
         ]
     } @$around_map, @$nearby;
 

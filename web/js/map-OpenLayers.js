@@ -84,7 +84,9 @@ function fms_markers_list(pins, transform) {
             colour: pin[2],
             size: pin[5] || size,
             id: pin[3],
-            title: pin[4] || ''
+            title: pin[4] || '',
+            category: pin[6],
+            fixed: pin[7]
         });
         markers.push( marker );
     }
@@ -561,7 +563,16 @@ OpenLayers.Format.FixMyStreet = OpenLayers.Class(OpenLayers.Format.JSON, {
         if (typeof(obj.current_combined) != 'undefined' && (current_combined = document.getElementById('current_combined'))) {
             current_combined.innerHTML = obj.current_combined;
         }
-        var markers = fms_markers_list( obj.pins, false );
+        var pins;
+        var category = $("#categories").val();
+        if (category.length) {
+            pins = obj.pins.filter(function(pin) {
+                return pin[6] == category;
+            })
+        } else {
+            pins = obj.pins;
+        }
+        var markers = fms_markers_list( pins, false );
         return markers;
     },
     CLASS_NAME: "OpenLayers.Format.FixMyStreet"
